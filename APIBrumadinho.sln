@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIBrumadinho", "APIBrumadinho\APIBrumadinho.csproj", "{90DDAB3E-BB35-4A83-8FA7-C18BA3F7734D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIBrumadinho", "src\API\APIBrumadinho\APIBrumadinho.csproj", "{90DDAB3E-BB35-4A83-8FA7-C18BA3F7734D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi", "TestApi\TestApi.csproj", "{D176B5DF-1B50-49CE-880F-1DCE90EBDD87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi", "src\API\TestApi\TestApi.csproj", "{D176B5DF-1B50-49CE-880F-1DCE90EBDD87}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4B2A4912-F9FD-4250-BB58-096DDBC53F97}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A7E165F6-F65E-4E6A-AE7E-0F5F3444524A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APITest", "APITest\APITest.csproj", "{41132F9C-2AD1-4AF4-A5CE-F6DC6E94A730}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APITest", "src\API\APITest\APITest.csproj", "{41132F9C-2AD1-4AF4-A5CE-F6DC6E94A730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
