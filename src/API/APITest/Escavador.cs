@@ -20,7 +20,6 @@ namespace APITest
             // Act
             var api = await InitApi(string.Empty, string.Empty, true);
 
-
             var result = await api.AuthAsync();
 
             // Assert
