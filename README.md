@@ -2,9 +2,9 @@
 
 Este repositorio é para guardar todo o código referente ao projeto da Plataforma de Colaboração. Aqui você vai encontrar códigos para:
 
-- API;
-- Microserviços;
-- FrontEnd;
+- API
+- Microserviços
+- FrontEnd
 - Aplicativos.
 
 |Servidor  |Tipo  |Plataforma  |Projeto   | Status |
@@ -15,8 +15,8 @@ Este repositorio é para guardar todo o código referente ao projeto da Platafor
 
 Você pode contribuir com este repositório das seguintes formas:
 
-- Abrindo uma *issue* para reportar bug, ideias de melhorias, etc;
-- Respondendo a *issues*;
+- Abrindo uma *issue* para reportar bug, ideias de melhorias, etc
+- Respondendo a *issues*
 - Enviando Pull Request(PR).
 
 Antes de enviar um PR abra uma *issue*, para que possamos avaliar a ideia e [leia, também, nosso guia para contribuição](CONTRIBUICAO.md).
