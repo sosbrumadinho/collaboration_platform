@@ -9,7 +9,7 @@ Este repositorio é para guardar todo o código referente ao projeto da Platafor
 
 |Servidor  |Tipo  |Plataforma  |Projeto   | Status |
 |---------|---------|---------|---------|---------|
-|AzureDevops     | Build & Testes unitários        |Windows      | API         |[![Build status](https://dev.azure.com/nrlcontrole/Collaboration_Platform/_apis/build/status/teste-CI)](https://dev.azure.com/nrlcontrole/Collaboration_Platform/_build/latest?definitionId=1) |
+|AzureDevops     | Build & Testes unitários        |Windows      | API         |[![Build status](https://dev.azure.com/sosbrumadinho19/sosbrumadinho19/_apis/build/status/teste-CI-import)](https://dev.azure.com/sosbrumadinho19/sosbrumadinho19/_build/latest?definitionId=0) |
 
 ## Contribuindo
 
