@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using APIBrumadinho;
+using APIBrumadinho.API;
 using Xunit;
 
 namespace APITest
 {
     public class Linkedin
     {
+        LinkedinApi api = LinkedinApi.Current;
+
         [Fact]
         public void GetTheAuthUrl()
         {
@@ -16,9 +19,22 @@ namespace APITest
             LinkedinEndPoints.ClientId,
             LinkedinEndPoints.REDIRECTURL);
 
-            var result = APIBrumadinho.API.LinkedinApi.Current.AuthUrl();
+            var result = api.AuthUrl();
 
             Assert.Equal(answer, result);
+        }
+
+        [Theory]
+        [InlineData("asdf23XCzqq", "aswoXSSSa12345")]
+        [InlineData("", "")]
+        [InlineData("", "aswoXSSSa12345")]
+        [InlineData("asdf23XCzqq", "")]
+        public void InitTest(string clientId, string clientSecret)
+        {
+            api.Init(clientId, clientSecret);
+
+            Assert.Equal(LinkedinEndPoints.ClientId, clientId);
+            Assert.Equal(LinkedinEndPoints.ClientSecret, clientSecret);
         }
     }
 }
