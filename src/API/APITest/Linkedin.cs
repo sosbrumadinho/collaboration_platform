@@ -9,7 +9,7 @@ namespace APITest
 {
     public class Linkedin
     {
-        LinkedinApi api = LinkedinApi.Current;
+        readonly LinkedinApi api = LinkedinApi.Current;
 
         [Fact]
         public void GetTheAuthUrl()
