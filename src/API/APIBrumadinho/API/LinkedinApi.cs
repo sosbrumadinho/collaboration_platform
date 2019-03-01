@@ -44,11 +44,11 @@ namespace APIBrumadinho.API
                 using (var request = new HttpRequestMessage(HttpMethod.Post, LinkedinEndPoints.TOKEN))
                 {
                     var content = new Dictionary<string, string>
-                {
-                    { "grant_type", "client_credentials" },
-                    { "client_id", LinkedinEndPoints.ClientId },
-                    { "client_secret", LinkedinEndPoints.ClientSecret }
-                };
+                    {
+                        { "grant_type", "client_credentials" },
+                        { "client_id", LinkedinEndPoints.ClientId },
+                        { "client_secret", LinkedinEndPoints.ClientSecret }
+                    };
 
                     request.Content = new FormUrlEncodedContent(content);
 
@@ -60,6 +60,7 @@ namespace APIBrumadinho.API
 
                         if (response.IsSuccessStatusCode)
                             return Result.Success(await response.Content.ReadAsStringAsync(), true);
+
                         return Result.Fail<bool>(await response.Content.ReadAsStringAsync());
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using APIBrumadinho;
 using APIBrumadinho.API;
 using Xunit;
@@ -35,6 +36,22 @@ namespace APITest
 
             Assert.Equal(LinkedinEndPoints.ClientId, clientId);
             Assert.Equal(LinkedinEndPoints.ClientSecret, clientSecret);
+        }
+
+        [Fact]
+        public void GetCodeTest()
+        {
+            api.GetCode("code=138392X29334&");
+
+            Assert.Equal("138392X29334", LinkedinEndPoints.AuthCode);
+        }
+
+        [Fact]
+        public async Task GetAuthTestAsync()
+        {
+            var result = await api.GetTokenAsync();
+
+            Assert.NotNull(result);
         }
     }
 }
