@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using APIBrumadinho.API;
 
-namespace APIBrumadinho
+namespace System
 {
     public static class ExtentionsHelpers
     {
@@ -41,5 +40,9 @@ namespace APIBrumadinho
                     return null;
             }
         }
+
+        public static bool IsNullOrEmpty(this string s) => string.IsNullOrEmpty(s);
+
+        public static bool IsNullOrWhiteSpace(this string s) => string.IsNullOrWhiteSpace(s);
     }
 }

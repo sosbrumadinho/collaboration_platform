@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using APIBrumadinho.Helpers;
 using APIBrumadinho.Logger;
+using Newtonsoft.Json.Linq;
 
 namespace APIBrumadinho.API
 {
     public class LinkedinApi
     {
-        static Lazy<LinkedinApi> lazyApi = new Lazy<LinkedinApi>(() => new LinkedinApi(), true);
+        static readonly Lazy<LinkedinApi> lazyApi = new Lazy<LinkedinApi>(() => new LinkedinApi(), true);
 
         public static LinkedinApi Current => lazyApi.Value;
 
@@ -28,33 +30,123 @@ namespace APIBrumadinho.API
             log = new DebugLogger(level);
             LinkedinEndPoints.ClientId = clientId;
             LinkedinEndPoints.ClientSecret = clientSecret;
-
-            // client.DefaultRequestHeaders.Add("grant_type", "client_credentials");
-            // client.DefaultRequestHeaders.Add("client_id", LinkedinEndPoints.ClientId);
-            // client.DefaultRequestHeaders.Add("client_secret", LinkedinEndPoints.ClientSecret);
         }
 
-        public async Task Auth()
+        public string AuthUrl() => string.Format(
+            "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={0}&redirect_uri={1}&state=DCEeFWf45A53sdfKef424scope=r_basicprofile",
+            LinkedinEndPoints.ClientId,
+            LinkedinEndPoints.REDIRECTURL);
+
+        public async Task<IResult<bool>> AuthAsync()
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Post, LinkedinEndPoints.TOKEN))
+            try
             {
-                var content = new Dictionary<string, string>
+                using (var request = new HttpRequestMessage(HttpMethod.Post, LinkedinEndPoints.TOKEN))
+                {
+                    var content = new Dictionary<string, string>
                 {
                     { "grant_type", "client_credentials" },
                     { "client_id", LinkedinEndPoints.ClientId },
                     { "client_secret", LinkedinEndPoints.ClientSecret }
                 };
 
-                request.Content = new FormUrlEncodedContent(content);
+                    request.Content = new FormUrlEncodedContent(content);
 
-                log?.LogRequest(request);
+                    log?.LogRequest(request);
 
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                {
-                    log?.LogResponse(response);
+                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                    {
+                        log?.LogResponse(response);
 
-                    var json = await response.Content.ReadAsStringAsync();
+                        if (response.IsSuccessStatusCode)
+                            return Result.Success(await response.Content.ReadAsStringAsync(), true);
+                        return Result.Fail<bool>(await response.Content.ReadAsStringAsync());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                log?.LogException(ex);
+                return Result.Fail<bool>(ex);
+            }
+        }
+
+        public void GetCode(string url)
+        {
+            var code = url.Split('&')[0];
+            code = code.Split('=')[1];
+            LinkedinEndPoints.AuthCode = code;
+        }
+
+        public async Task<IResult<bool>> GetTokenAsync()
+        {
+            try
+            {
+                if (LinkedinEndPoints.REDIRECTURL.IsNullOrEmpty() &&
+                    LinkedinEndPoints.ClientSecret.IsNullOrEmpty() &&
+                    LinkedinEndPoints.ClientId.IsNullOrEmpty())
+                {
+                    throw new ArgumentNullException("Please run the Init method first!");
+                }
+
+                using (var request = new HttpRequestMessage(HttpMethod.Post, LinkedinEndPoints.TOKEN))
+                {
+                    var content = new Dictionary<string, string>
+                    {
+                        { "grant_type", "authorization_code" },
+                        { "code", LinkedinEndPoints.AuthCode },
+                        { "redirect_uri", LinkedinEndPoints.REDIRECTURL },
+                        { "client_id", LinkedinEndPoints.ClientId },
+                        { "client_secret", LinkedinEndPoints.ClientSecret }
+                    };
+
+                    request.Content = new FormUrlEncodedContent(content);
+
+                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var tokenString = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                            LinkedinEndPoints.AccessToken = tokenString["access_token"].ToString();
+                            LinkedinEndPoints.ExpiresIn = tokenString["expires_in"].ToString();
+                            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {LinkedinEndPoints.AccessToken}");
+
+                            return Result.Success(true);
+                        }
+                        return Result.Fail<bool>(await response.Content.ReadAsStringAsync());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log?.LogException(ex);
+                return Result.Fail<bool>(ex);
+            }
+        }
+
+        public async Task<IResult<string>> GetPersonAsync(string args = null)
+        {
+            string uri;
+            if (args.IsNullOrEmpty())
+                uri = "https://api.linkedin.com/v1/people/~?format=json";
+            else
+                uri = string.Format("https://api.linkedin.com/v1/people/~:({0})?format=json", args);
+
+            try
+            {
+                using (var response = await client.GetAsync(uri).ConfigureAwait(false))
+                {
+                    if (response.IsSuccessStatusCode)
+                        return Result.Success(await response.Content.ReadAsStringAsync());
+
+                    return Result.Fail<string>(await response.Content.ReadAsStringAsync());
+                }
+            }
+            catch (Exception ex)
+            {
+                log?.LogException(ex);
+                return Result.Fail<string>(ex);
             }
         }
     }
