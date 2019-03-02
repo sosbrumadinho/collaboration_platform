@@ -7,6 +7,7 @@ namespace TestApi
     {
         static async Task Main(string[] args)
         {
+            
             var api = APIBrumadinho.API.EscavadorApi.Current;
             api.Init(string.Empty, string.Empty, APIBrumadinho.Logger.LogLevel.All);
             var result = await api.AuthAsync();

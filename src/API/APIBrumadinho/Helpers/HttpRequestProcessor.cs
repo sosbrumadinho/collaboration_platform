@@ -10,7 +10,7 @@ namespace APIBrumadinho.Helpers
         readonly HttpClient client;
         readonly DebugLogger log;
 
-        internal HttpRequestProcessor(DebugLogger debug, ref HttpClient http)
+        internal HttpRequestProcessor(DebugLogger debug, HttpClient http)
         {
             log = debug;
             client = http;

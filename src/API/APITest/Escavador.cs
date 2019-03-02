@@ -18,7 +18,7 @@ namespace APITest
             var answer = Result.Success(true);
 
             // Act
-            var api = await InitApi(Constantes.User, Constantes.Pass, true);
+            var api = await InitApi(Constantes.EscavadorUser, Constantes.EscavadorPass, true);
 
             var result = await api.AuthAsync();
 
@@ -31,7 +31,7 @@ namespace APITest
         {
             var answer = Result.Success("12");
 
-            var api = await InitApi(Constantes.User, Constantes.Pass);
+            var api = await InitApi(Constantes.EscavadorUser, Constantes.EscavadorPass);
 
             var result = await api.GetCreditsAsync();
 
@@ -44,7 +44,7 @@ namespace APITest
         {
             var answer = Result.Success(new PeopleResult());
 
-            var api = await InitApi(Constantes.User, Constantes.Pass);
+            var api = await InitApi(Constantes.EscavadorUser, Constantes.EscavadorPass);
 
             var result = await api.SearchPeopleAsync(2);
 
@@ -76,7 +76,7 @@ namespace APITest
         {
             var answer = Result.Fail<PeopleResult>("Can't get the people", default);
 
-            var api = await InitApi(Constantes.User, Constantes.Pass);
+            var api = await InitApi(Constantes.EscavadorUser, Constantes.EscavadorPass);
             var result = await api.SearchPeopleAsync(id);
 
             Assert.Equal(answer, result);

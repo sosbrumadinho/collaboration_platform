@@ -9,7 +9,7 @@
         internal const string TOKEN = "https://www.linkedin.com/oauth/v2/accessToken";
 
         // Mudar essa url pra original dentro do devops.
-        internal const string REDIRECTURL = "https://www.teste.com/teste";
+        internal const string REDIRECTURL = "https://www.teste.com/";
 
         internal static string ClientId { get; set; } = string.Empty;
 

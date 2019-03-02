@@ -17,6 +17,7 @@ namespace APIBrumadinho.API
         readonly HttpClient client;
 
         DebugLogger log;
+        HttpRequestProcessor processor;
 
         LinkedinApi()
         {
@@ -30,6 +31,7 @@ namespace APIBrumadinho.API
             log = new DebugLogger(level);
             LinkedinEndPoints.ClientId = clientId;
             LinkedinEndPoints.ClientSecret = clientSecret;
+            processor = new HttpRequestProcessor(log, client);
         }
 
         public string AuthUrl() => string.Format(
@@ -52,9 +54,7 @@ namespace APIBrumadinho.API
 
                     request.Content = new FormUrlEncodedContent(content);
 
-                    log?.LogRequest(request);
-
-                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                    using (var response = await processor.SendAsync(request).ConfigureAwait(false))
                     {
                         log?.LogResponse(response);
 
@@ -103,7 +103,7 @@ namespace APIBrumadinho.API
 
                     request.Content = new FormUrlEncodedContent(content);
 
-                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                    using (var response = await processor.SendAsync(request).ConfigureAwait(false))
                     {
                         if (response.IsSuccessStatusCode)
                         {
@@ -136,7 +136,7 @@ namespace APIBrumadinho.API
 
             try
             {
-                using (var response = await client.GetAsync(uri).ConfigureAwait(false))
+                using (var response = await processor.GetAsync(new Uri(uri)).ConfigureAwait(false))
                 {
                     if (response.IsSuccessStatusCode)
                         return Result.Success(await response.Content.ReadAsStringAsync());

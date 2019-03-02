@@ -33,7 +33,7 @@ namespace APIBrumadinho.API
             EscavadorEndPoints.UserName = username;
             EscavadorEndPoints.Password = password;
             log = new DebugLogger(level);
-            processor = new HttpRequestProcessor(log, ref client);
+            processor = new HttpRequestProcessor(log, client);
         }
 
         public async Task<IResult<bool>> AuthAsync()

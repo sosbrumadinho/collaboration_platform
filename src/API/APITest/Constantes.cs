@@ -2,8 +2,8 @@
 {
     internal class Constantes
     {
-        internal const string User = "#{AC_User}#";
+        internal const string EscavadorUser = "#{AC_User}#";
 
-        internal const string Pass = "#{AC_Passaword}#";
+        internal const string EscavadorPass = "#{AC_Passaword}#";
     }
 }
